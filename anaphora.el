@@ -5,7 +5,7 @@
 ;; Author: Roland Walker <walker@pobox.com>
 ;; Homepage: http://github.com/rolandwalker/anaphora
 ;; URL: http://raw.github.com/rolandwalker/anaphora/master/anaphora.el
-;; Version: 0.0.1
+;; Version: 0.0.2
 ;; Last-Updated: 12 Sep 2012
 ;; EmacsWiki: Anaphora
 ;; Keywords: extensions
