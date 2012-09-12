@@ -49,6 +49,7 @@
 ;;     `aecase'
 ;;     `atypecase'
 ;;     `aetypecase'
+;;     `alet'
 ;;
 ;; See Also
 ;;
@@ -122,6 +123,7 @@
                              "aecase"
                              "atypecase"
                              "aetypecase"
+                             "alet"
                              )))
          (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "(\\s-*" (regexp-opt new-keywords 'paren) "\\>")
                                                      1 font-lock-keyword-face)) 'append))
@@ -266,6 +268,16 @@ The variable `it' is available within CLAUSES."
   (declare (indent 1))
   `(let ((it ,expr))
      (etypecase it ,@clauses)))
+
+;;;###autoload
+(defmacro alet (varlist &rest body)
+  "Like `let', except that VARLIST is bound to `it'.
+
+The variable `it' is available within BODY."
+  (declare (indent 1))
+  `(let ((it ',varlist)
+          ,@varlist)
+     (progn ,@body)))
 
 (provide 'anaphora)
 

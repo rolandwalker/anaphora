@@ -320,6 +320,34 @@
       (hash-table
        :nono))))
 
+
+(expectations
+
+  (desc "anaphora-alet")
+
+  (expect 1
+    (alet ((x 1)
+           (y 2)
+           (z 3))
+      x))
+
+  (expect '(y 2)
+    (alet ((x 1)
+           (y 2)
+           (z 3))
+      (nth 1 it)))
+
+  (expect 'y
+    (alet (x y z)
+      (car (memq 'y it))))
+
+  (expect '(x y z)
+    (let ((vars '((x 1)
+                  (y 2)
+                  (z 3))))
+      (eval `(alet ,vars
+               (mapcar 'car it))))))
+
 ;;
 ;; Emacs
 ;;

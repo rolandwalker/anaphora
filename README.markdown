@@ -42,6 +42,7 @@ The following macros are made available
 	aecase
 	atypecase
 	aetypecase
+    alet
 
 See Also
 --------
