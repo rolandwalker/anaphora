@@ -71,8 +71,6 @@
 ;;
 ;; Bugs
 ;;
-;;     (acond (1)) should evaluate to 1 as does (cond (1))
-;;
 ;; TODO
 ;;
 ;;; License
@@ -203,7 +201,9 @@ The variable `it' is available within the remainder of each of CLAUSES."
           (sym (gensym)))
       `(let ((,sym ,(car cl1)))
          (if ,sym
-             (let ((it ,sym)) ,@(cdr cl1))
+             (if (null ',(cdr cl1))
+                 ,sym
+               (let ((it ,sym)) ,@(cdr cl1)))
            (acond ,@(cdr clauses)))))))
 
 ;;;###autoload

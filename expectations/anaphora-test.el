@@ -135,11 +135,15 @@
 
   (desc "anaphora-acond")
 
-  ;; @@@ bug
   (expect 1
     (acond (1)))
 
-  ;; @@@ bug
+  (expect nil
+    (acond (1 nil)))
+
+  (expect t
+    (acond (1 t)))
+
   (expect :foo
     (acond (:foo) ("bar") (:baz)))
 
