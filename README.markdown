@@ -30,18 +30,18 @@ Emacs can find it, and add the following to your ~/.emacs file:
 
 The following macros are made available
 
-	`aif`
-	`aprog1`
-	`awhen`
-	`awhile`
-	`aand`
-	`acond`
-	`alambda`
-	`ablock`
-	`acase`
-	`aecase`
-	`atypecase`
-	`aetypecase`
+	aif
+	aprog1
+	awhen
+	awhile
+	aand
+	acond
+	alambda
+	ablock
+	acase
+	aecase
+	atypecase
+	aetypecase
 
 See Also
 --------
