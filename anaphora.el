@@ -37,19 +37,19 @@
 ;;
 ;; The following macros are made available
 ;;
-;;     `aif'
-;;     `aprog1'
-;;     `awhen'
-;;     `awhile'
 ;;     `aand'
-;;     `acond'
-;;     `alambda'
 ;;     `ablock'
 ;;     `acase'
+;;     `acond'
 ;;     `aecase'
-;;     `atypecase'
 ;;     `aetypecase'
+;;     `aif'
+;;     `alambda'
 ;;     `alet'
+;;     `aprog1'
+;;     `atypecase'
+;;     `awhen'
+;;     `awhile'
 ;;
 ;; See Also
 ;;
