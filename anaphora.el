@@ -84,11 +84,8 @@
 
 ;;; requires
 
-(eval-when-compile
-  ;; for declare, labels, do, block, case, ecase, typecase, etypecase
-  (require 'cl))
-
-(declare-function gensym  "cl-macs.el")
+;; for declare, labels, do, block, case, ecase, typecase, etypecase
+(require 'cl)
 
 ;;; customizable variables
 
