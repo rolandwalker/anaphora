@@ -38,17 +38,17 @@ The following macros are made available
 	aetypecase
 	aif
 	alambda
+	alet
 	aprog1
 	atypecase
 	awhen
 	awhile
-    alet
 
 See Also
 --------
 
-	http://en.wikipedia.org/wiki/On_Lisp
-	http://en.wikipedia.org/wiki/Anaphoric_macro
+* [http://en.wikipedia.org/wiki/On_Lisp](http://en.wikipedia.org/wiki/On_Lisp)
+* [http://en.wikipedia.org/wiki/Anaphoric_macro](http://en.wikipedia.org/wiki/Anaphoric_macro)
 
 Notes
 -----
