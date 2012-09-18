@@ -67,7 +67,7 @@
 ;; Graham.
 ;;
 ;; When this library is loaded, the provided anaphoric forms are
-;; registered as keywords in font-lock. This may be disabled via
+;; registered as keywords in font-lock.  This may be disabled via
 ;; customize.
 ;;
 ;; Compatibility and Requirements
@@ -141,7 +141,9 @@
 (defmacro aif (cond then &rest else)
   "Like `if', except that the value of COND is bound to `it'.
 
-The variable `it' is available within THEN and ELSE."
+The variable `it' is available within THEN and ELSE.
+
+COND, THEN, and ELSE are otherwise as documented for `if'."
   (declare (indent 2))
   `(let ((it ,cond))
      (if it ,then ,@else)))
@@ -150,7 +152,9 @@ The variable `it' is available within THEN and ELSE."
 (defmacro aprog1 (first &rest body)
   "Like `prog1', except that the value of FIRST is bound to `it'.
 
-The variable `it' is available within BODY."
+The variable `it' is available within BODY.
+
+FIRST and BODY are otherwise as documented for `prog1'."
   (declare (indent 1))
   `(let ((it ,first))
      (progn ,@body)
@@ -160,7 +164,9 @@ The variable `it' is available within BODY."
 (defmacro awhen (cond &rest body)
   "Like `when', except that the value of COND is bound to `it'.
 
-The variable `it' is available within BODY."
+The variable `it' is available within BODY.
+
+COND and BODY are otherwise as documented for `when'."
   (declare (indent 1))
   `(aif ,cond
        (progn ,@body)))
@@ -169,7 +175,9 @@ The variable `it' is available within BODY."
 (defmacro awhile (test &rest body)
   "Like `while', except that the value of TEST is bound to `it'.
 
-The variable `it' is available within BODY."
+The variable `it' is available within BODY.
+
+TEST and BODY are otherwise as documented for `while'."
   (declare (indent 1))
   `(do ((it ,test ,test))
        ((not it))
@@ -181,6 +189,8 @@ The variable `it' is available within BODY."
 
 The variable `it' is available within all CONDITIONS after the
 initial one.
+
+CONDITIONS are otherwise as documented for `and'.
 
 Note that some implementations of `aand' bind only the first
 condition to `it', rather than each successive condition."
@@ -196,7 +206,9 @@ condition to `it', rather than each successive condition."
 (defmacro acond (&rest clauses)
   "Like `cond', except that the value of each condition is bound to `it'.
 
-The variable `it' is available within the remainder of each of CLAUSES."
+The variable `it' is available within the remainder of each of CLAUSES.
+
+CLAUSES are otherwise as documented for `cond'."
   (declare (indent 0))
   (if (null clauses)
       nil
@@ -213,7 +225,7 @@ The variable `it' is available within the remainder of each of CLAUSES."
 (defmacro alambda (args &rest body)
   "Like `lambda', except that the function may refer to itself as `self'.
 
-ARGS and BODY are as documented for `lambda'."
+ARGS and BODY are otherwise as documented for `lambda'."
   (declare (indent defun))
   `(labels ((self ,args ,@body))
      #'self))
@@ -223,7 +235,9 @@ ARGS and BODY are as documented for `lambda'."
   "Like `block', except that the value of the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions of BODY
-except the initial one."
+except the initial one.
+
+NAME and BODY are otherwise as documented for `block'."
   (declare (indent 1))
   `(block ,name
      ,(funcall (alambda (body)
@@ -236,45 +250,56 @@ except the initial one."
 
 ;;;###autoload
 (defmacro acase (expr &rest clauses)
-  "Like `case', except that the value EXPR is bound to `it'.
+  "Like `case', except that the value of EXPR is bound to `it'.
 
-The variable `it' is available within CLAUSES."
+The variable `it' is available within CLAUSES.
+
+EXPR and CLAUSES are otherwise as documented for `case'."
   (declare (indent 1))
   `(let ((it ,expr))
      (case it ,@clauses)))
 
 ;;;###autoload
 (defmacro aecase (expr &rest clauses)
-  "Like `ecase', except that the value EXPR is bound to `it'.
+  "Like `ecase', except that the value of EXPR is bound to `it'.
 
-The variable `it' is available within CLAUSES."
+The variable `it' is available within CLAUSES.
+
+EXPR and CLAUSES are otherwise as documented for `ecase'."
   (declare (indent 1))
   `(let ((it ,expr))
      (ecase it ,@clauses)))
 
 ;;;###autoload
 (defmacro atypecase (expr &rest clauses)
-  "Like `typecase', except that the value EXPR is bound to `it'.
+  "Like `typecase', except that the value of EXPR is bound to `it'.
 
-The variable `it' is available within CLAUSES."
+The variable `it' is available within CLAUSES.
+
+EXPR and CLAUSES are otherwise as documented for `typecase'."
   (declare (indent 1))
   `(let ((it ,expr))
      (typecase it ,@clauses)))
 
 ;;;###autoload
 (defmacro aetypecase (expr &rest clauses)
-  "Like `etypecase', except that the value EXPR is bound to `it'.
+  "Like `etypecase', except that the value of EXPR is bound to `it'.
 
-The variable `it' is available within CLAUSES."
+The variable `it' is available within CLAUSES.
+
+EXPR and CLAUSES are otherwise as documented for `etypecase'."
   (declare (indent 1))
   `(let ((it ,expr))
      (etypecase it ,@clauses)))
 
 ;;;###autoload
 (defmacro alet (varlist &rest body)
-  "Like `let', except that VARLIST is bound to `it'.
+  "Like `let', except that the content of VARLIST is bound to `it'.
 
-The variable `it' is available within BODY."
+VARLIST as it appears in `it' is not evaluated.  The variable `it'
+is available within BODY.
+
+VARLIST and BODY are otherwise as documented for `let'."
   (declare (indent 1))
   `(let ((it ',varlist)
           ,@varlist)
@@ -285,7 +310,9 @@ The variable `it' is available within BODY."
   "Like `+', except that the value of the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions after the
-initial one."
+initial one.
+
+NUMBERS-OR-MARKERS are otherwise as documented for `+'."
   (cond
     ((null numbers-or-markers)
      0)
@@ -298,7 +325,10 @@ initial one."
   "Like `-', except that the value of the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions after the
-initial one."
+initial one.
+
+NUMBER-OR-MARKER and NUMBERS-OR-MARKERS are otherwise as
+documented for `-'."
   (cond
     ((null number-or-marker)
      0)
@@ -313,7 +343,9 @@ initial one."
   "Like `*', except that the value of the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions after the
-initial one."
+initial one.
+
+NUMBERS-OR-MARKERS are otherwise as documented for `*'."
   (cond
     ((null numbers-or-markers)
      1)
@@ -326,7 +358,9 @@ initial one."
   "Like `/', except that the value of the previous divisor is bound to `it'.
 
 The variable `it' is available within all expressions after the
-first divisor one."
+first divisor.
+
+DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
   (cond
     ((null divisors)
      `(/ ,dividend ,divisor))
@@ -347,7 +381,9 @@ first divisor one."
 ;; byte-compile-warnings: (not cl-functions)
 ;; End:
 ;;
-;; LocalWords: Anaphora EXPR awhen COND ARGS
+;; LocalWords: Anaphora EXPR awhen COND ARGS alambda ecase typecase
+;; LocalWords: etypecase aprog aand acond ablock acase aecase alet
+;; LocalWords: atypecase aetypecase VARLIST
 ;;
 
 ;;; anaphora.el ends here
