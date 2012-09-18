@@ -50,6 +50,10 @@
 ;;     `atypecase'
 ;;     `awhen'
 ;;     `awhile'
+;;     `a+'
+;;     `a-'
+;;     `a*'
+;;     `a/'
 ;;
 ;; See Also
 ;;
@@ -275,6 +279,60 @@ The variable `it' is available within BODY."
   `(let ((it ',varlist)
           ,@varlist)
      (progn ,@body)))
+
+;;;###autoload
+(defmacro a+ (&rest numbers-or-markers)
+  "Like `+', except that the value of the previous expression is bound to `it'.
+
+The variable `it' is available within all expressions after the
+initial one."
+  (cond
+    ((null numbers-or-markers)
+     0)
+    (t
+     `(let ((it ,(car numbers-or-markers)))
+        (+ it (a+ ,@(cdr numbers-or-markers)))))))
+
+;;;###autoload
+(defmacro a- (&optional number-or-marker &rest numbers-or-markers)
+  "Like `-', except that the value of the previous expression is bound to `it'.
+
+The variable `it' is available within all expressions after the
+initial one."
+  (cond
+    ((null number-or-marker)
+     0)
+    ((null numbers-or-markers)
+     `(- ,number-or-marker))
+    (t
+     `(let ((it ,(car numbers-or-markers)))
+        (- ,number-or-marker (+ it (a+ ,@(cdr numbers-or-markers))))))))
+
+;;;###autoload
+(defmacro a* (&rest numbers-or-markers)
+  "Like `*', except that the value of the previous expression is bound to `it'.
+
+The variable `it' is available within all expressions after the
+initial one."
+  (cond
+    ((null numbers-or-markers)
+     1)
+    (t
+     `(let ((it ,(car numbers-or-markers)))
+        (* it (a* ,@(cdr numbers-or-markers)))))))
+
+;;;###autoload
+(defmacro a/ (dividend divisor &rest divisors)
+  "Like `/', except that the value of the previous divisor is bound to `it'.
+
+The variable `it' is available within all expressions after the
+first divisor one."
+  (cond
+    ((null divisors)
+     `(/ ,dividend ,divisor))
+    (t
+     `(let ((it ,divisor))
+        (/ ,dividend (* it (a* ,@divisors)))))))
 
 (provide 'anaphora)
 

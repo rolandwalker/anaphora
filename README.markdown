@@ -43,6 +43,10 @@ The following macros are made available
 	atypecase
 	awhen
 	awhile
+	a+
+	a-
+	a*
+	a/
 
 See Also
 --------

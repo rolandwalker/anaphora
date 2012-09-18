@@ -348,6 +348,102 @@
       (eval `(alet ,vars
                (mapcar 'car it))))))
 
+
+(expectations
+
+  (desc "anaphora-a+")
+
+  (expect 0
+    (a+))
+
+  (expect 2
+    (a+ 2))
+
+  (expect (error)
+    (a+ it))
+
+  (expect 9
+    (a+ 2 3 4))
+
+  (expect 13
+    (a+ 2 3 4 it))
+
+  (expect 15
+    (a+ 2 3 4 it 2)))
+
+
+(expectations
+
+  (desc "anaphora-a-")
+
+  (expect 0
+    (a-))
+
+  (expect -2
+    (a- 2))
+
+  (expect (error)
+    (a- it))
+
+  (expect 13
+    (a- 20 3 4))
+
+  (expect 9
+    (a- 20 3 4 it))
+
+  (expect 7
+    (a- 20 3 4 it 2)))
+
+
+(expectations
+
+  (desc "anaphora-a*")
+
+  (expect 1
+    (a*))
+
+  (expect 2
+    (a* 2))
+
+  (expect (error)
+    (a* it))
+
+  (expect 24
+    (a* 2 3 4))
+
+  (expect 96
+    (a* 2 3 4 it))
+
+  (expect 192
+    (a* 2 3 4 it 2)))
+
+
+(expectations
+
+  (desc "anaphora-a/")
+
+  (expect (error)
+    (a/))
+
+  (expect (error)
+    (a/ 200))
+
+  (expect 40
+    (a/ 200 5))
+
+  (expect (error)
+    (a/ 200 it))
+
+  (expect 20
+    (a/ 200 5 2))
+
+  (expect 10
+    (a/ 200 5 2 it))
+
+  (expect 2
+    (a/ 200 5 2 it 5)))
+
+
 ;;
 ;; Emacs
 ;;
