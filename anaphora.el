@@ -5,7 +5,7 @@
 ;; Author: Roland Walker <walker@pobox.com>
 ;; Homepage: http://github.com/rolandwalker/anaphora
 ;; URL: http://raw.github.com/rolandwalker/anaphora/master/anaphora.el
-;; Version: 0.0.3
+;; Version: 0.0.4
 ;; Last-Updated: 14 Sep 2012
 ;; EmacsWiki: Anaphora
 ;; Keywords: extensions
@@ -144,7 +144,8 @@
 The variable `it' is available within THEN and ELSE.
 
 COND, THEN, and ELSE are otherwise as documented for `if'."
-  (declare (indent 2))
+  (declare (debug (sexp form &rest form))
+           (indent 2))
   `(let ((it ,cond))
      (if it ,then ,@else)))
 
@@ -155,7 +156,8 @@ COND, THEN, and ELSE are otherwise as documented for `if'."
 The variable `it' is available within BODY.
 
 FIRST and BODY are otherwise as documented for `prog1'."
-  (declare (indent 1))
+  (declare (debug (sexp &rest form))
+           (indent 1))
   `(let ((it ,first))
      (progn ,@body)
      it))
@@ -167,7 +169,8 @@ FIRST and BODY are otherwise as documented for `prog1'."
 The variable `it' is available within BODY.
 
 COND and BODY are otherwise as documented for `when'."
-  (declare (indent 1))
+  (declare (debug (sexp &rest form))
+           (indent 1))
   `(aif ,cond
        (progn ,@body)))
 
@@ -178,7 +181,8 @@ COND and BODY are otherwise as documented for `when'."
 The variable `it' is available within BODY.
 
 TEST and BODY are otherwise as documented for `while'."
-  (declare (indent 1))
+  (declare (debug (sexp &rest form)
+                  (indent 1)))
   `(do ((it ,test ,test))
        ((not it))
      ,@body))
@@ -226,7 +230,8 @@ CLAUSES are otherwise as documented for `cond'."
   "Like `lambda', except that the function may refer to itself as `self'.
 
 ARGS and BODY are otherwise as documented for `lambda'."
-  (declare (indent defun))
+  (declare (debug (sexp &rest form))
+           (indent defun))
   `(labels ((self ,args ,@body))
      #'self))
 
@@ -238,7 +243,8 @@ The variable `it' is available within all expressions of BODY
 except the initial one.
 
 NAME and BODY are otherwise as documented for `block'."
-  (declare (indent 1))
+  (declare (debug (sexp &rest form))
+           (indent 1))
   `(block ,name
      ,(funcall (alambda (body)
                         (case (length body)
@@ -255,7 +261,8 @@ NAME and BODY are otherwise as documented for `block'."
 The variable `it' is available within CLAUSES.
 
 EXPR and CLAUSES are otherwise as documented for `case'."
-  (declare (indent 1))
+  (declare (debug (sexp &rest form))
+           (indent 1))
   `(let ((it ,expr))
      (case it ,@clauses)))
 
@@ -300,7 +307,8 @@ VARLIST as it appears in `it' is not evaluated.  The variable `it'
 is available within BODY.
 
 VARLIST and BODY are otherwise as documented for `let'."
-  (declare (indent 1))
+  (declare (debug (sexp &rest form))
+           (indent 1))
   `(let ((it ',varlist)
           ,@varlist)
      (progn ,@body)))
