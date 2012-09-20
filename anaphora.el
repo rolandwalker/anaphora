@@ -181,8 +181,8 @@ COND and BODY are otherwise as documented for `when'."
 The variable `it' is available within BODY.
 
 TEST and BODY are otherwise as documented for `while'."
-  (declare (debug (sexp &rest form)
-                  (indent 1)))
+  (declare (debug (sexp &rest form))
+           (indent 1))
   `(do ((it ,test ,test))
        ((not it))
      ,@body))
