@@ -6,7 +6,7 @@
 ;; Homepage: http://github.com/rolandwalker/anaphora
 ;; URL: http://raw.github.com/rolandwalker/anaphora/master/anaphora.el
 ;; Version: 0.0.4
-;; Last-Updated: 14 Sep 2012
+;; Last-Updated: 19 Sep 2012
 ;; EmacsWiki: Anaphora
 ;; Keywords: extensions
 ;;
@@ -96,7 +96,7 @@
 ;;;###autoload
 (defgroup anaphora nil
   "Anaphoric macros providing implicit temp variables"
-  :version "0.0.3"
+  :version "0.0.4"
   :link '(emacs-commentary-link "anaphora")
   :prefix "anaphora-"
   :group 'extensions)
