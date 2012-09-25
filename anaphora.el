@@ -108,12 +108,31 @@
   :type 'boolean
   :group 'anaphora)
 
+;;;###autoload
+(defcustom anaphora-use-long-names-only nil
+  "Use only long names such as `anaphoric-if' instead of traditional `aif'."
+  :type 'boolean
+  :group 'anaphora)
+
 ;;; font-lock
 
 (when anaphora-add-font-lock-keywords
   (eval-after-load "lisp-mode"
     '(progn
        (let ((new-keywords '(
+                             "anaphoric-if"
+                             "anaphoric-prog1"
+                             "anaphoric-when"
+                             "anaphoric-while"
+                             "anaphoric-and"
+                             "anaphoric-cond"
+                             "anaphoric-lambda"
+                             "anaphoric-block"
+                             "anaphoric-case"
+                             "anaphoric-ecase"
+                             "anaphoric-typecase"
+                             "anaphoric-etypecase"
+                             "anaphoric-let"
                              "aif"
                              "aprog1"
                              "awhen"
@@ -143,11 +162,38 @@
                       font-lock-mode)
              (font-lock-refresh-defaults)))))))
 
+;;; aliases
+
+;;;###autoload
+(defun anaphora--install-traditional-aliases ()
+  "Install short names for anaphoric macros."
+  (defalias 'aif        'anaphoric-if)
+  (defalias 'aprog1     'anaphoric-prog1)
+  (defalias 'awhen      'anaphoric-when)
+  (defalias 'awhile     'anaphoric-while)
+  (defalias 'aand       'anaphoric-and)
+  (defalias 'acond      'anaphoric-cond)
+  (defalias 'alambda    'anaphoric-lambda)
+  (defalias 'ablock     'anaphoric-block)
+  (defalias 'acase      'anaphoric-case)
+  (defalias 'aecase     'anaphoric-ecase)
+  (defalias 'atypecase  'anaphoric-typecase)
+  (defalias 'aetypecase 'anaphoric-etypecase)
+  (defalias 'alet       'anaphoric-let)
+  (defalias 'a+         'anaphoric-+)
+  (defalias 'a-         'anaphoric--)
+  (defalias 'a*         'anaphoric-*)
+  (defalias 'a/         'anaphoric-/))
+
+;;;###autoload
+(unless anaphora-use-long-names-only
+  (anaphora--install-traditional-aliases))
+
 ;;; macros
 
 ;;;###autoload
-(defmacro aif (cond then &rest else)
-  "Like `if', except that the value of COND is bound to `it'.
+(defmacro anaphoric-if (cond then &rest else)
+  "Like `if', but the result of evaluating COND is bound to `it'.
 
 The variable `it' is available within THEN and ELSE.
 
@@ -158,8 +204,8 @@ COND, THEN, and ELSE are otherwise as documented for `if'."
      (if it ,then ,@else)))
 
 ;;;###autoload
-(defmacro aprog1 (first &rest body)
-  "Like `prog1', except that the value of FIRST is bound to `it'.
+(defmacro anaphoric-prog1 (first &rest body)
+  "Like `prog1', but the result of evaluting FIRST is bound to `it'.
 
 The variable `it' is available within BODY.
 
@@ -171,20 +217,20 @@ FIRST and BODY are otherwise as documented for `prog1'."
      it))
 
 ;;;###autoload
-(defmacro awhen (cond &rest body)
-  "Like `when', except that the value of COND is bound to `it'.
+(defmacro anaphoric-when (cond &rest body)
+  "Like `when', but the result of evaluating COND is bound to `it'.
 
 The variable `it' is available within BODY.
 
 COND and BODY are otherwise as documented for `when'."
   (declare (debug (sexp &rest form))
            (indent 1))
-  `(aif ,cond
+  `(anaphoric-if ,cond
        (progn ,@body)))
 
 ;;;###autoload
-(defmacro awhile (test &rest body)
-  "Like `while', except that the value of TEST is bound to `it'.
+(defmacro anaphoric-while (test &rest body)
+  "Like `while', but the result of evaluating TEST is bound to `it'.
 
 The variable `it' is available within BODY.
 
@@ -196,15 +242,15 @@ TEST and BODY are otherwise as documented for `while'."
      ,@body))
 
 ;;;###autoload
-(defmacro aand (&rest conditions)
-  "Like `and', except that the value of the previous condition is bound to `it'.
+(defmacro anaphoric-and (&rest conditions)
+  "Like `and', but the result of the previous condition is bound to `it'.
 
 The variable `it' is available within all CONDITIONS after the
 initial one.
 
 CONDITIONS are otherwise as documented for `and'.
 
-Note that some implementations of `aand' bind only the first
+Note that some implementations of this macro bind only the first
 condition to `it', rather than each successive condition."
   (cond
     ((null conditions)
@@ -212,11 +258,11 @@ condition to `it', rather than each successive condition."
     ((null (cdr conditions))
      (car conditions))
     (t
-     `(aif ,(car conditions) (aand ,@(cdr conditions))))))
+     `(anaphoric-if ,(car conditions) (anaphoric-and ,@(cdr conditions))))))
 
 ;;;###autoload
-(defmacro acond (&rest clauses)
-  "Like `cond', except that the value of each condition is bound to `it'.
+(defmacro anaphoric-cond (&rest clauses)
+  "Like `cond', but the result of each condition is bound to `it'.
 
 The variable `it' is available within the remainder of each of CLAUSES.
 
@@ -231,11 +277,11 @@ CLAUSES are otherwise as documented for `cond'."
              (if (null ',(cdr cl1))
                  ,sym
                (let ((it ,sym)) ,@(cdr cl1)))
-           (acond ,@(cdr clauses)))))))
+           (anaphoric-cond ,@(cdr clauses)))))))
 
 ;;;###autoload
-(defmacro alambda (args &rest body)
-  "Like `lambda', except that the function may refer to itself as `self'.
+(defmacro anaphoric-lambda (args &rest body)
+  "Like `lambda', but the function may refer to itself as `self'.
 
 ARGS and BODY are otherwise as documented for `lambda'."
   (declare (debug (sexp &rest form))
@@ -244,8 +290,8 @@ ARGS and BODY are otherwise as documented for `lambda'."
      #'self))
 
 ;;;###autoload
-(defmacro ablock (name &rest body)
-  "Like `block', except that the value of the previous expression is bound to `it'.
+(defmacro anaphoric-block (name &rest body)
+  "Like `block', but the result of the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions of BODY
 except the initial one.
@@ -254,17 +300,17 @@ NAME and BODY are otherwise as documented for `block'."
   (declare (debug (sexp &rest form))
            (indent 1))
   `(block ,name
-     ,(funcall (alambda (body)
-                        (case (length body)
-                          (0 nil)
-                          (1 (car body))
-                          (t `(let ((it ,(car body)))
-                                ,(self (cdr body))))))
+     ,(funcall (anaphoric-lambda (body)
+                 (case (length body)
+                   (0 nil)
+                   (1 (car body))
+                   (t `(let ((it ,(car body)))
+                         ,(self (cdr body))))))
                body)))
 
 ;;;###autoload
-(defmacro acase (expr &rest clauses)
-  "Like `case', except that the value of EXPR is bound to `it'.
+(defmacro anaphoric-case (expr &rest clauses)
+  "Like `case', but the result of evaluating EXPR is bound to `it'.
 
 The variable `it' is available within CLAUSES.
 
@@ -275,8 +321,8 @@ EXPR and CLAUSES are otherwise as documented for `case'."
      (case it ,@clauses)))
 
 ;;;###autoload
-(defmacro aecase (expr &rest clauses)
-  "Like `ecase', except that the value of EXPR is bound to `it'.
+(defmacro anaphoric-ecase (expr &rest clauses)
+  "Like `ecase', but the result of evaluating EXPR is bound to `it'.
 
 The variable `it' is available within CLAUSES.
 
@@ -286,8 +332,8 @@ EXPR and CLAUSES are otherwise as documented for `ecase'."
      (ecase it ,@clauses)))
 
 ;;;###autoload
-(defmacro atypecase (expr &rest clauses)
-  "Like `typecase', except that the value of EXPR is bound to `it'.
+(defmacro anaphoric-typecase (expr &rest clauses)
+  "Like `typecase', but the result of evaluating EXPR is bound to `it'.
 
 The variable `it' is available within CLAUSES.
 
@@ -297,8 +343,8 @@ EXPR and CLAUSES are otherwise as documented for `typecase'."
      (typecase it ,@clauses)))
 
 ;;;###autoload
-(defmacro aetypecase (expr &rest clauses)
-  "Like `etypecase', except that the value of EXPR is bound to `it'.
+(defmacro anaphoric-etypecase (expr &rest clauses)
+  "Like `etypecase', but result of evaluating EXPR is bound to `it'.
 
 The variable `it' is available within CLAUSES.
 
@@ -308,8 +354,8 @@ EXPR and CLAUSES are otherwise as documented for `etypecase'."
      (etypecase it ,@clauses)))
 
 ;;;###autoload
-(defmacro alet (varlist &rest body)
-  "Like `let', except that the content of VARLIST is bound to `it'.
+(defmacro anaphoric-let (varlist &rest body)
+  "Like `let', but the content of VARLIST is bound to `it'.
 
 VARLIST as it appears in `it' is not evaluated.  The variable `it'
 is available within BODY.
@@ -322,8 +368,8 @@ VARLIST and BODY are otherwise as documented for `let'."
      (progn ,@body)))
 
 ;;;###autoload
-(defmacro a+ (&rest numbers-or-markers)
-  "Like `+', except that the value of the previous expression is bound to `it'.
+(defmacro anaphoric-+ (&rest numbers-or-markers)
+  "Like `+', but the result of evaluating the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions after the
 initial one.
@@ -334,11 +380,11 @@ NUMBERS-OR-MARKERS are otherwise as documented for `+'."
      0)
     (t
      `(let ((it ,(car numbers-or-markers)))
-        (+ it (a+ ,@(cdr numbers-or-markers)))))))
+        (+ it (anaphoric-+ ,@(cdr numbers-or-markers)))))))
 
 ;;;###autoload
-(defmacro a- (&optional number-or-marker &rest numbers-or-markers)
-  "Like `-', except that the value of the previous expression is bound to `it'.
+(defmacro anaphoric-- (&optional number-or-marker &rest numbers-or-markers)
+  "Like `-', but the result of evaluating the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions after the
 initial one.
@@ -352,11 +398,11 @@ documented for `-'."
      `(- ,number-or-marker))
     (t
      `(let ((it ,(car numbers-or-markers)))
-        (- ,number-or-marker (+ it (a+ ,@(cdr numbers-or-markers))))))))
+        (- ,number-or-marker (+ it (anaphoric-+ ,@(cdr numbers-or-markers))))))))
 
 ;;;###autoload
-(defmacro a* (&rest numbers-or-markers)
-  "Like `*', except that the value of the previous expression is bound to `it'.
+(defmacro anaphoric-* (&rest numbers-or-markers)
+  "Like `*', but the result of evaluating the previous expression is bound to `it'.
 
 The variable `it' is available within all expressions after the
 initial one.
@@ -367,11 +413,11 @@ NUMBERS-OR-MARKERS are otherwise as documented for `*'."
      1)
     (t
      `(let ((it ,(car numbers-or-markers)))
-        (* it (a* ,@(cdr numbers-or-markers)))))))
+        (* it (anaphoric-* ,@(cdr numbers-or-markers)))))))
 
 ;;;###autoload
-(defmacro a/ (dividend divisor &rest divisors)
-  "Like `/', except that the value of the previous divisor is bound to `it'.
+(defmacro anaphoric-/ (dividend divisor &rest divisors)
+  "Like `/', but the result of evaluating the previous divisor is bound to `it'.
 
 The variable `it' is available within all expressions after the
 first divisor.
@@ -382,7 +428,7 @@ DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
      `(/ ,dividend ,divisor))
     (t
      `(let ((it ,divisor))
-        (/ ,dividend (* it (a* ,@divisors)))))))
+        (/ ,dividend (* it (anaphoric-* ,@divisors)))))))
 
 (provide 'anaphora)
 
