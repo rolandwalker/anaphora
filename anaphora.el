@@ -78,6 +78,8 @@
 ;;
 ;; TODO
 ;;
+;;     better face for it and self
+;;
 ;;; License
 ;;
 ;; This code is in the public domain.  It is provided without
@@ -125,7 +127,13 @@
                              "atypecase"
                              "aetypecase"
                              "alet"
-                             )))
+                             ))
+             (special-variables '(
+                                  "it"
+                                  "self"
+                                  )))
+         (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "\\<" (regexp-opt special-variables 'paren) "\\>")
+                                                     1 font-lock-variable-name-face)) 'append)
          (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "(\\s-*" (regexp-opt new-keywords 'paren) "\\>")
                                                      1 font-lock-keyword-face)) 'append))
        (dolist (buf (buffer-list))
