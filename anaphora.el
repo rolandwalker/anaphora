@@ -364,7 +364,7 @@ VARLIST and BODY are otherwise as documented for `let'."
   (declare (debug (sexp &rest form))
            (indent 1))
   `(let ((it ',varlist)
-          ,@varlist)
+         ,@varlist)
      (progn ,@body)))
 
 ;;;###autoload
