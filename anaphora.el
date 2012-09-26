@@ -205,7 +205,7 @@ COND, THEN, and ELSE are otherwise as documented for `if'."
 
 ;;;###autoload
 (defmacro anaphoric-prog1 (first &rest body)
-  "Like `prog1', but the result of evaluting FIRST is bound to `it'.
+  "Like `prog1', but the result of evaluating FIRST is bound to `it'.
 
 The variable `it' is available within BODY.
 
