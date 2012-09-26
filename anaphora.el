@@ -55,6 +55,12 @@
 ;;     `a*'
 ;;     `a/'
 ;;
+;; The following macros are experimental, especially the last one
+;;
+;;     `anaphoric-set'
+;;     `anaphoric-setq'
+;;     `anaphoric-setf-experimental'
+;;
 ;; See Also
 ;;
 ;;     M-x customize-group RET anaphora RET
@@ -429,6 +435,105 @@ DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
     (t
      `(let ((it ,divisor))
         (/ ,dividend (* it (anaphoric-* ,@divisors)))))))
+
+;;;###autoload
+(defmacro anaphoric-set (symbol value)
+  "Like `set', except that the value of SYMBOL is bound to `it'.
+
+The variable `it' is available within VALUE.
+
+SYMBOL and VALUE are otherwise as documented for `set'.
+
+Note that if this macro followed traditional naming for
+anaphoric expressions, it would conflict with the existing
+\(quite different\) function `aset'."
+  `(let ((it ,symbol))
+     (set it ,value)))
+
+;;;###autoload
+(defmacro anaphoric-setq (&rest args)
+  "Like `setq', except that the value of SYM is bound to `it'.
+
+The variable `it' is available within each VAL.
+
+ARGS in the form [SYM VAL] ... are otherwise as documented for `setq'.
+
+No alias `asetq' is provided, because it would easily mistaken
+for the pre-existing `aset', and because `anaphoric-setq' is not
+likely to find frequent use."
+  (cond
+    ((null args)
+     nil)
+    ((> (length args) 2)
+     (let ((pairs nil))
+       (while args
+         (push (list 'anaphoric-setq (pop args) (pop args)) pairs))
+       (cons 'progn (nreverse pairs))))
+    (t
+     `(let ((it (quote ,(car args))))
+        (set it ,(cadr args))))))
+
+;; `anaphoric-setf-experimental' is marked "experimental" because
+;;
+;;    1 There is a double evaluation and the workaround is only
+;;      lightly tested.
+;;
+;;    2 There is an outstanding test failure: anaphoric-setf-10.
+;;
+;;    3 Still trying to think of a real use-case where callf is
+;;      not sufficient.  There is one contrived example in
+;;      the tests: anaphoric-setf-16.
+;;
+;;  Therefore this macro is currently only a plaything and may removed
+;;  in a later revision for any of the above reasons.
+
+;;;###autoload
+(defmacro anaphoric-setf-experimental (&rest args)
+  "Like `setf', except that the value of PLACE is bound to `it'.
+
+The variable `it' is available within VAL.
+
+ARGS in the form [PLACE VAL] ... are otherwise as documented for `setf'.
+
+No alias `asetf' is provided, because it would be easily mistaken
+for the pre-existing `aset', and because `anaphoric-setf' is not
+likely to find frequent use."
+  (cond
+    ((null args)
+     nil)
+    ((> (length args) 2)
+     (let ((pairs nil))
+       (while args
+         (push (list 'anaphoric-setf-experimental (pop args) (pop args)) pairs))
+       (cons 'progn (nreverse pairs))))
+    ((symbolp (car args))
+     (and args (cons 'anaphoric-setq args)))
+    (t
+     ;; ,partially-evaluated-place will be evaluated twice, once when
+     ;; setting `it', and once during the eval of `store'.  The
+     ;; working theory is that for all cases where setf is allowed,
+     ;; the double-eval is safe, after the partial evaluation.  If
+     ;; that is not true, digging into `cl-setf-do-modify' and
+     ;; `cl-setf-do-store' would be required to make this macro work.
+     ;; see test failure anaphoric-setf-10
+     (let ((partially-evaluated-place (gensym)))
+       `(let* ((,partially-evaluated-place (mapcar #'(lambda (x)
+                                                       (if (and (listp x)
+                                                                (not (eq 'quote (car x))))
+                                                           (if (listp (setq x (eval x)))
+                                                               (list 'quote x)
+                                                             ;; else
+                                                             x)
+                                                         ;; else
+                                                         x))
+                                                   ',(car args)))
+               (it (eval ,partially-evaluated-place)))
+          (let* ((method (cl-setf-do-modify ,partially-evaluated-place ',(nth 1 args)))
+                 (store (cl-setf-do-store (nth 1 method) ',(nth 1 args))))
+            (if (car method)
+                (eval (list 'let* (car method) store))
+              ;; else
+              (eval store))))))))
 
 (provide 'anaphora)
 

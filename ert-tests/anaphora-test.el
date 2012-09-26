@@ -492,6 +492,169 @@
              (a/ 200 5 2 it 5))))
 
 
+;;; anaphoric-set
+
+(ert-deftest anaphoric-set-01 nil
+  (should-error
+   (progn
+     (anaphoric-set))))
+
+(ert-deftest anaphoric-set-02 nil
+  (should (= 2
+             (let ((variable 0))
+               (anaphoric-set 'variable 2)))))
+
+(ert-deftest anaphoric-set-03 nil
+  (should (eq 'variable
+             (let ((variable 0))
+               (anaphoric-set 'variable it)))))
+
+(ert-deftest anaphoric-set-04 nil
+  (should (equal "name-variable"
+                 (let ((variable 0))
+                   (anaphoric-set 'variable (format "name-%s" it))))))
+
+
+;;; anaphoric-setq
+
+(ert-deftest anaphoric-setq-01 nil
+  (should-not
+   (anaphoric-setq)))
+
+(ert-deftest anaphoric-setq-02 nil
+  (should (= 2
+             (let ((variable 0))
+               (anaphoric-setq variable 2)))))
+
+(ert-deftest anaphoric-setq-03 nil
+  (should (eq 'variable
+             (let ((variable 0))
+               (anaphoric-setq variable it)))))
+
+(ert-deftest anaphoric-setq-04 nil
+  (should (equal "name-variable"
+             (let ((variable 0))
+               (anaphoric-setq variable (format "name-%s" it))))))
+
+(ert-deftest anaphoric-setq-05 nil
+  (should (equal '("name-variable-1" "name-variable-2")
+                 (let ((variable-1 0)
+                       (variable-2 0))
+                   (anaphoric-setq variable-1 (format "name-%s" it)
+                                   variable-2 (format "name-%s" it))
+                   (list variable-1 variable-2)))))
+
+;;; anaphoric-setf
+
+(ert-deftest anaphoric-setf-01 nil
+  "Matching ordinary setf."
+  (should (equal '(A 2 3 4 5 6 7 8 9 10)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (car sequence) 'A)
+                   sequence))))
+
+(ert-deftest anaphoric-setf-02 nil
+  "Matching ordinary setf."
+  (should (equal '(1 2 3 4 . Z)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (nthcdr 4 sequence) 'Z)
+                   sequence))))
+
+(ert-deftest anaphoric-setf-03 nil
+  "Matching ordinary setf."
+  (should (equal '(1 Z 3 4 5 6 7 8 9 10)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (second sequence) 'Z)
+                   sequence))))
+
+(ert-deftest anaphoric-setf-04 nil
+  "Matching ordinary setf."
+  (should (equal '[1 2 3 4 Z 6]
+                 (let ((sequence [1 2 3 4 5 6]))
+                   (anaphoric-setf-experimental (aref sequence 4) 'Z)
+                   sequence))))
+
+(ert-deftest anaphoric-setf-05 nil
+  "Make sure (incf counter) is called only once."
+  (should (equal '(4 (1 2 3 4 . Z))
+                 (let ((sequence (number-sequence 1 10))
+                       (counter 3))
+                   (anaphoric-setf-experimental (nthcdr (incf counter) sequence) 'Z)
+                   (list counter sequence)))))
+
+(ert-deftest anaphoric-setf-06 nil
+  (should (equal '(1 2 3 4 . Z)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (nthcdr (position 5 sequence) sequence) 'Z)
+                   sequence))))
+
+(ert-deftest anaphoric-setf-07 nil
+  (should (equal '(1 2 3 . Z)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (cdr (memq 3 sequence)) 'Z)
+                   sequence))))
+
+(ert-deftest anaphoric-setf-08 nil
+  (should (equal '(1 2 3 . 7)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (cdr (memq 3 sequence)) (length it))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-09 nil
+  (should (equal '(1 2 3 4 5 6 7 8 9 10 11 12 "88 elements removed")
+                 (let ((sequence (number-sequence 1 100)))
+                   (anaphoric-setf-experimental (nthcdr 12 sequence) (list (format "%s elements removed" (length it))))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-10 nil
+  :expected-result :failed
+  "Bug, this works with plain setf"
+  (should (equal '("First element replaced" 2 3 4 5 6 7 8 9 10 11 12 13 14 15)
+                 (let ((sequence (number-sequence 1 15)))
+                   (anaphoric-setf-experimental (nthcdr 0 (car sequence)) (list "First element replaced"))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-11 nil
+  "Splicing out a series of members from the middle of a list."
+  (should (equal '(1 2 3 4 7 8 9 10)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (nthcdr 4 sequence) (cddr it))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-12 nil
+  "Splicing out a single member from the middle of a list."
+  (should (equal '(1 2 3 4 6 7 8 9 10)
+                 (let ((sequence (number-sequence 1 10)))
+                   (anaphoric-setf-experimental (nthcdr (position 5 sequence) sequence) (cdr it))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-13 nil
+  "Splicing out a pair from a plist."
+  (should (equal '(:one 1 :two 2 :four 4 :five 5)
+                 (let ((sequence '(:one 1 :two 2 :three 3 :four 4 :five 5)))
+                   (anaphoric-setf-experimental (nthcdr (position :three sequence) sequence) (cddr it))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-14 nil
+  (should (equal '("a" ?b ?c)
+                 (let ((sequence '(?a ?b ?c)))
+                   (anaphoric-setf-experimental (car sequence) (string it))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-15 nil
+  (should (equal '("1" 2 3)
+                 (let ((sequence '(1 2 3)))
+                   (anaphoric-setf-experimental (car sequence) (number-to-string it))
+                   sequence))))
+
+(ert-deftest anaphoric-setf-16 nil
+  "A contrived example not workable with callf"
+  (should (equal '(1 2 3 . "7 elements removed: (4 5 6 7 8 9 10)")
+                 (let ((sequence (number-sequence 1 10))
+                       (counter 2))
+                   (anaphoric-setf-experimental (nthcdr (incf counter) sequence) (format "%s elements removed: %s" (length it) it))
+                   sequence))))
+
 ;;
 ;; Emacs
 ;;
