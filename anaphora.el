@@ -88,7 +88,16 @@
 ;;
 ;;; License
 ;;
-;; This code is in the public domain.  It is provided without
+;; All code contributed by the author to this library is placed in the
+;; public domain.  It is the author's belief that the portions adapted
+;; from examples in "On Lisp" are in the public domain.  At least 10
+;; lines of code have been adapted from the Emacs 'cl package (in the
+;; functions `anaphoric-setq' and `anaphoric-setf-experimental').  It
+;; may be that the function `anaphoric-setf-experimental' is
+;; sufficiently derived from Emacs as to be copyrighted under the GPL,
+;; Version 3.
+;;
+;; Regardless of copyright status, all code herein is provided without
 ;; any express or implied warranties.
 ;;
 ;;; Code:
