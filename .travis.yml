@@ -8,11 +8,9 @@ before_install:
         emacs-snapshot-el emacs-snapshot-gtk emacs-snapshot;
     fi
 matrix:
-  env:
-    - EMACS=emacs
+  env: EMACS=emacs
   allow_failures:
-    env:
-      - EMACS=emacs-snapshot
+    - env: EMACS=emacs-snapshot
 script:
   $EMACS --version &&
   make downloads &&
