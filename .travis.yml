@@ -23,3 +23,5 @@ script:
   $EMACS --version &&
   make downloads &&
   make test EMACS=$EMACS
+notifications:
+  email: false
