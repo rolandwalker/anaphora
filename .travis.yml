@@ -7,8 +7,12 @@ before_install:
         sudo apt-get install -qq
         emacs-snapshot-el emacs-snapshot-gtk emacs-snapshot;
     fi
-env:
-  - EMACS=emacs
+matrix:
+  env:
+    - EMACS = emacs
+  allow_failures:
+    env:
+      - EMACS = emacs-snapshot
 script:
   $EMACS --version &&
   make downloads &&
