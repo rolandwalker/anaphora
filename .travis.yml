@@ -1,6 +1,10 @@
 language: emacs-lisp
 before_install:
   - git submodule --quiet update --init
+  - if [ "$EMACS" = 'emacs22' ]; then
+        sudo apt-get update -qq &&
+        sudo apt-get install -qq emacs22-gtk emacs22-el;
+    fi
   - if [ "$EMACS" = 'emacs23' ]; then
         sudo apt-get update -qq &&
         sudo apt-get install -qq emacs23-gtk emacs23-el;
@@ -18,8 +22,10 @@ before_install:
     fi
 matrix:
   allow_failures:
+    - env: EMACS=emacs22
     - env: EMACS=emacs-snapshot
 env:
+  - EMACS=emacs22
   - EMACS=emacs23
   - EMACS=emacs24
   - EMACS=emacs-snapshot
