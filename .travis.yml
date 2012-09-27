@@ -9,10 +9,10 @@ before_install:
     fi
 matrix:
   env:
-    - EMACS = emacs
+    - EMACS=emacs
   allow_failures:
     env:
-      - EMACS = emacs-snapshot
+      - EMACS=emacs-snapshot
 script:
   $EMACS --version &&
   make downloads &&
