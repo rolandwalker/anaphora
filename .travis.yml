@@ -9,5 +9,4 @@ before_install:
     fi
 env:
 script:
-  $EMACS --version &&
   make test EMACS=$EMACS
