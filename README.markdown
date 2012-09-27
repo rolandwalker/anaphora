@@ -8,14 +8,16 @@ Anaphoric expressions for Emacs Lisp, providing implicit temporary variables.
 Quickstart
 ----------
 
-	(require 'anaphora)
-
-	(awhen (big-long-calculation)
-	  (foo it)      ; `it` is provided as
-	  (bar it))     ; a temporary variable
-
-	;; anonymous function to compute factorial using `self`
-	(alambda (x) (if (= x 0) 1 (* x (self (1- x)))))
+```lisp
+(require 'anaphora)
+ 
+(awhen (big-long-calculation)
+  (foo it)      ; `it` is provided as
+  (bar it))     ; a temporary variable
+ 
+;; anonymous function to compute factorial using `self`
+(alambda (x) (if (= x 0) 1 (* x (self (1- x)))))
+```
 
 anaphora
 --------
@@ -28,7 +30,9 @@ recursion for anonymous functions.
 To use anaphora, place the anaphora.el library somewhere
 Emacs can find it, and add the following to your ~/.emacs file:
 
-	(require 'anaphora)
+```lisp
+(require 'anaphora)
+```
 
 The following macros are made available
 
