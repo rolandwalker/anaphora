@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/rolandwalker/anaphora.png)](http://travis-ci.org/rolandwalker/anaphora)
+
 Overview
 ========
 
