@@ -65,7 +65,7 @@ See Also
 Notes
 -----
 
-Principally based on examples from the book "On Lisp", by Paul Graham.
+Partially based on examples from the book "On Lisp", by Paul Graham.
 
 When this library is loaded, the provided anaphoric forms are
 registered as keywords in font-lock. This may be disabled via

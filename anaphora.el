@@ -69,7 +69,7 @@
 ;;
 ;; Notes
 ;;
-;; Principally based on examples from the book "On Lisp", by Paul
+;; Partially based on examples from the book "On Lisp", by Paul
 ;; Graham.
 ;;
 ;; When this library is loaded, the provided anaphoric forms are
@@ -97,8 +97,9 @@
 ;; sufficiently derived from Emacs as to be copyrighted under the GPL,
 ;; Version 3.
 ;;
-;; Regardless of copyright status, all code herein is provided without
-;; any express or implied warranties.
+;; Regardless of the copyright status of individual functions, all
+;; code herein is free software, and is provided without any express
+;; or implied warranties.
 ;;
 ;;; Code:
 ;;
