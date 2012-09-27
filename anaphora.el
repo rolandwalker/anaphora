@@ -181,7 +181,7 @@
 
 ;;;###autoload
 (defun anaphora--install-traditional-aliases ()
-  "Install short names for anaphoric macros."
+  "Install traditional short names for anaphoric macros."
   (defalias 'aif        'anaphoric-if)
   (defalias 'aprog1     'anaphoric-prog1)
   (defalias 'awhen      'anaphoric-when)
