@@ -8,6 +8,8 @@ before_install:
         emacs-snapshot-el emacs-snapshot-gtk emacs-snapshot;
     fi
 env:
-  - EMACS=emacs-snapshot
+  - EMACS=emacs
 script:
+  $EMACS --version &&
+  make downloads &&
   make test EMACS=$EMACS
