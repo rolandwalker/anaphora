@@ -107,6 +107,8 @@
 
 ;; for declare, labels, do, block, case, ecase, typecase, etypecase
 (require 'cl)
+;; for cl-setf-do-modify, cl-setf-do-store
+(require 'cl-macs)
 
 ;;; customizable variables
 
