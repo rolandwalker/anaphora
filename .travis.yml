@@ -10,5 +10,4 @@ before_install:
 env:
   - EMACS=emacs-snapshot
 script:
-  $EMACS --version
   make test EMACS=$EMACS
