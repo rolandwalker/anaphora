@@ -494,6 +494,9 @@ likely to find frequent use."
 ;;      not sufficient.  There is one contrived example in
 ;;      the tests: anaphoric-setf-16.
 ;;
+;;    4 The innards of setf are being changed completely in
+;;      Emacs 24.3.
+;;
 ;;  Therefore this macro is currently only a plaything and may removed
 ;;  in a later revision for any of the above reasons.
 
