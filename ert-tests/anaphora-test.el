@@ -548,6 +548,7 @@
 
 (ert-deftest anaphoric-setf-01 nil
   "Matching ordinary setf."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(A 2 3 4 5 6 7 8 9 10)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (car sequence) 'A)
@@ -555,6 +556,7 @@
 
 (ert-deftest anaphoric-setf-02 nil
   "Matching ordinary setf."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 4 . Z)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (nthcdr 4 sequence) 'Z)
@@ -562,6 +564,7 @@
 
 (ert-deftest anaphoric-setf-03 nil
   "Matching ordinary setf."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 Z 3 4 5 6 7 8 9 10)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (second sequence) 'Z)
@@ -569,6 +572,7 @@
 
 (ert-deftest anaphoric-setf-04 nil
   "Matching ordinary setf."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '[1 2 3 4 Z 6]
                  (let ((sequence [1 2 3 4 5 6]))
                    (anaphoric-setf-experimental (aref sequence 4) 'Z)
@@ -576,6 +580,7 @@
 
 (ert-deftest anaphoric-setf-05 nil
   "Make sure (incf counter) is called only once."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(4 (1 2 3 4 . Z))
                  (let ((sequence (number-sequence 1 10))
                        (counter 3))
@@ -583,24 +588,28 @@
                    (list counter sequence)))))
 
 (ert-deftest anaphoric-setf-06 nil
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 4 . Z)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (nthcdr (position 5 sequence) sequence) 'Z)
                    sequence))))
 
 (ert-deftest anaphoric-setf-07 nil
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 . Z)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (cdr (memq 3 sequence)) 'Z)
                    sequence))))
 
 (ert-deftest anaphoric-setf-08 nil
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 . 7)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (cdr (memq 3 sequence)) (length it))
                    sequence))))
 
 (ert-deftest anaphoric-setf-09 nil
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 4 5 6 7 8 9 10 11 12 "88 elements removed")
                  (let ((sequence (number-sequence 1 100)))
                    (anaphoric-setf-experimental (nthcdr 12 sequence) (list (format "%s elements removed" (length it))))
@@ -616,6 +625,7 @@
 
 (ert-deftest anaphoric-setf-11 nil
   "Splicing out a series of members from the middle of a list."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 4 7 8 9 10)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (nthcdr 4 sequence) (cddr it))
@@ -623,6 +633,7 @@
 
 (ert-deftest anaphoric-setf-12 nil
   "Splicing out a single member from the middle of a list."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 4 6 7 8 9 10)
                  (let ((sequence (number-sequence 1 10)))
                    (anaphoric-setf-experimental (nthcdr (position 5 sequence) sequence) (cdr it))
@@ -630,18 +641,21 @@
 
 (ert-deftest anaphoric-setf-13 nil
   "Splicing out a pair from a plist."
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(:one 1 :two 2 :four 4 :five 5)
                  (let ((sequence '(:one 1 :two 2 :three 3 :four 4 :five 5)))
                    (anaphoric-setf-experimental (nthcdr (position :three sequence) sequence) (cddr it))
                    sequence))))
 
 (ert-deftest anaphoric-setf-14 nil
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '("a" ?b ?c)
                  (let ((sequence '(?a ?b ?c)))
                    (anaphoric-setf-experimental (car sequence) (string it))
                    sequence))))
 
 (ert-deftest anaphoric-setf-15 nil
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '("1" 2 3)
                  (let ((sequence '(1 2 3)))
                    (anaphoric-setf-experimental (car sequence) (number-to-string it))
@@ -649,6 +663,7 @@
 
 (ert-deftest anaphoric-setf-16 nil
   "A contrived example not workable with callf"
+  :expected-result (if (fboundp 'cl-setf-do-modify) :passed :failed)
   (should (equal '(1 2 3 . "7 elements removed: (4 5 6 7 8 9 10)")
                  (let ((sequence (number-sequence 1 10))
                        (counter 2))

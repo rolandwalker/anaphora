@@ -512,6 +512,8 @@ No alias `asetf' is provided, because it would be easily mistaken
 for the pre-existing `aset', and because `anaphoric-setf' is not
 likely to find frequent use."
   (cond
+    ((not (fboundp 'cl-setf-do-modify))
+     (error "unimplemented"))
     ((null args)
      nil)
     ((> (length args) 2)
