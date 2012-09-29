@@ -607,8 +607,8 @@
                    sequence))))
 
 (ert-deftest anaphoric-setf-10 nil
+  "BUG TODO, this works with plain setf"
   :expected-result :failed
-  "Bug, this works with plain setf"
   (should (equal '("First element replaced" 2 3 4 5 6 7 8 9 10 11 12 13 14 15)
                  (let ((sequence (number-sequence 1 15)))
                    (anaphoric-setf-experimental (nthcdr 0 (car sequence)) (list "First element replaced"))
