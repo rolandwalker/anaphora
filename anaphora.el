@@ -186,23 +186,29 @@
 ;;;###autoload
 (defun anaphora--install-traditional-aliases ()
   "Install traditional short names for anaphoric macros."
-  (defalias 'aif        'anaphoric-if)
-  (defalias 'aprog1     'anaphoric-prog1)
-  (defalias 'awhen      'anaphoric-when)
-  (defalias 'awhile     'anaphoric-while)
-  (defalias 'aand       'anaphoric-and)
-  (defalias 'acond      'anaphoric-cond)
-  (defalias 'alambda    'anaphoric-lambda)
-  (defalias 'ablock     'anaphoric-block)
-  (defalias 'acase      'anaphoric-case)
-  (defalias 'aecase     'anaphoric-ecase)
-  (defalias 'atypecase  'anaphoric-typecase)
-  (defalias 'aetypecase 'anaphoric-etypecase)
-  (defalias 'alet       'anaphoric-let)
-  (defalias 'a+         'anaphoric-+)
-  (defalias 'a-         'anaphoric--)
-  (defalias 'a*         'anaphoric-*)
-  (defalias 'a/         'anaphoric-/))
+  (let ((syms '(
+                if
+                prog1
+                when
+                while
+                and
+                cond
+                lambda
+                block
+                case
+                ecase
+                typecase
+                etypecase
+                let
+                +
+                -
+                *
+                /
+                )))
+    (dolist (sym syms)
+      (let ((traditional (intern (format "a%s" sym)))
+            (long (intern (format "anaphoric-%s" sym))))
+        (defalias traditional long)))))
 
 ;;;###autoload
 (unless anaphora-use-long-names-only
