@@ -287,6 +287,7 @@ CONDITIONS are otherwise as documented for `and'.
 
 Note that some implementations of this macro bind only the first
 condition to `it', rather than each successive condition."
+  (declare (debug t))
   (cond
     ((null conditions)
      t)
@@ -413,6 +414,7 @@ The variable `it' is available within all expressions after the
 initial one.
 
 NUMBERS-OR-MARKERS are otherwise as documented for `+'."
+  (declare (debug t))
   (cond
     ((null numbers-or-markers)
      0)
@@ -429,6 +431,7 @@ initial one.
 
 NUMBER-OR-MARKER and NUMBERS-OR-MARKERS are otherwise as
 documented for `-'."
+  (declare (debug t))
   (cond
     ((null number-or-marker)
      0)
@@ -446,6 +449,7 @@ The variable `it' is available within all expressions after the
 initial one.
 
 NUMBERS-OR-MARKERS are otherwise as documented for `*'."
+  (declare (debug t))
   (cond
     ((null numbers-or-markers)
      1)
@@ -461,6 +465,7 @@ The variable `it' is available within all expressions after the
 first divisor.
 
 DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
+  (declare (debug t))
   (cond
     ((null divisors)
      `(/ ,dividend ,divisor))
