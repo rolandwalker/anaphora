@@ -233,7 +233,7 @@ With negative numeric ARG, remove traditional aliases."
 The variable `it' is available within THEN and ELSE.
 
 COND, THEN, and ELSE are otherwise as documented for `if'."
-  (declare (debug (sexp form &rest form))
+  (declare (debug t)
            (indent 2))
   `(let ((it ,cond))
      (if it ,then ,@else)))
@@ -245,7 +245,7 @@ COND, THEN, and ELSE are otherwise as documented for `if'."
 The variable `it' is available within BODY.
 
 FIRST and BODY are otherwise as documented for `prog1'."
-  (declare (debug (sexp &rest form))
+  (declare (debug t)
            (indent 1))
   `(let ((it ,first))
      (progn ,@body)
@@ -270,7 +270,7 @@ COND and BODY are otherwise as documented for `when'."
 The variable `it' is available within BODY.
 
 TEST and BODY are otherwise as documented for `while'."
-  (declare (debug (sexp &rest form))
+  (declare (debug t)
            (indent 1))
   `(do ((it ,test ,test))
        ((not it))
