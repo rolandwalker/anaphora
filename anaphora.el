@@ -218,7 +218,7 @@ With negative numeric ARG, remove traditional aliases."
                (long (intern (format "anaphoric-%s" sym))))
            (defalias traditional long)
            (put traditional 'lisp-indent-function
-                (get long 'lisp-indent-function))))))))
+                (get sym 'lisp-indent-function))))))))
 
 ;;;###autoload
 (unless anaphora-use-long-names-only
