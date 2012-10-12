@@ -189,36 +189,38 @@
 
 With negative numeric ARG, remove traditional aliases."
   (let ((syms '(
-                if
-                prog1
-                when
-                while
-                and
-                cond
-                lambda
-                block
-                case
-                ecase
-                typecase
-                etypecase
-                let
-                +
-                -
-                *
-                /
+                (if         .  t)
+                (prog1      .  t)
+                (when       .  when)
+                (while      .  t)
+                (and        .  t)
+                (cond       .  cond)
+                (lambda     .  lambda)
+                (block      .  block)
+                (case       .  case)
+                (ecase      .  ecase)
+                (typecase   .  typecase)
+                (etypecase  .  etypecase)
+                (let        .  let)
+                (+          .  t)
+                (-          .  t)
+                (*          .  t)
+                (/          .  t)
                 )))
     (cond
       ((and (numberp arg)
             (< arg 0))
-       (dolist (sym syms)
-         (fmakunbound (intern (format "a%s" sym)))))
+       (dolist (cell syms)
+         (fmakunbound (intern (format "a%s" (car cell))))))
       (t
-       (dolist (sym syms)
-         (let ((traditional (intern (format "a%s" sym)))
-               (long (intern (format "anaphoric-%s" sym))))
+       (dolist (cell syms)
+         (let* ((builtin (car cell))
+                (traditional (intern (format "a%s" builtin)))
+                (long (intern (format "anaphoric-%s" builtin))))
            (defalias traditional long)
            (put traditional 'lisp-indent-function
-                (get sym 'lisp-indent-function))))))))
+                (get builtin 'lisp-indent-function))
+           (put traditional 'edebug-form-spec (cdr cell))))))))
 
 ;;;###autoload
 (unless anaphora-use-long-names-only
