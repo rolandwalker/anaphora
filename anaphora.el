@@ -208,7 +208,9 @@
     (dolist (sym syms)
       (let ((traditional (intern (format "a%s" sym)))
             (long (intern (format "anaphoric-%s" sym))))
-        (defalias traditional long)))))
+        (defalias traditional long)
+        (put traditional 'lisp-indent-function
+             (get long 'lisp-indent-function))))))
 
 ;;;###autoload
 (unless anaphora-use-long-names-only
