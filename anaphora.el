@@ -184,8 +184,10 @@
 ;;; aliases
 
 ;;;###autoload
-(defun anaphora--install-traditional-aliases ()
-  "Install traditional short names for anaphoric macros."
+(defun anaphora--install-traditional-aliases (&optional arg)
+  "Install traditional short aliases for anaphoric macros.
+
+With negative numeric ARG, remove traditional aliases."
   (let ((syms '(
                 if
                 prog1
@@ -205,12 +207,18 @@
                 *
                 /
                 )))
-    (dolist (sym syms)
-      (let ((traditional (intern (format "a%s" sym)))
-            (long (intern (format "anaphoric-%s" sym))))
-        (defalias traditional long)
-        (put traditional 'lisp-indent-function
-             (get long 'lisp-indent-function))))))
+    (cond
+      ((and (numberp arg)
+            (< arg 0))
+       (dolist (sym syms)
+         (fmakunbound (intern (format "a%s" sym)))))
+      (t
+       (dolist (sym syms)
+         (let ((traditional (intern (format "a%s" sym)))
+               (long (intern (format "anaphoric-%s" sym))))
+           (defalias traditional long)
+           (put traditional 'lisp-indent-function
+                (get long 'lisp-indent-function))))))))
 
 ;;;###autoload
 (unless anaphora-use-long-names-only
