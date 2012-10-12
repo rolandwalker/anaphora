@@ -258,7 +258,7 @@ FIRST and BODY are otherwise as documented for `prog1'."
 The variable `it' is available within BODY.
 
 COND and BODY are otherwise as documented for `when'."
-  (declare (debug (sexp &rest form))
+  (declare (debug when)
            (indent 1))
   `(anaphoric-if ,cond
        (progn ,@body)))
@@ -302,7 +302,7 @@ condition to `it', rather than each successive condition."
 The variable `it' is available within the remainder of each of CLAUSES.
 
 CLAUSES are otherwise as documented for `cond'."
-  (declare (indent 0))
+  (declare (debug cond))
   (if (null clauses)
       nil
     (let ((cl1 (car clauses))
@@ -319,7 +319,7 @@ CLAUSES are otherwise as documented for `cond'."
   "Like `lambda', but the function may refer to itself as `self'.
 
 ARGS and BODY are otherwise as documented for `lambda'."
-  (declare (debug (sexp &rest form))
+  (declare (debug lambda)
            (indent defun))
   `(labels ((self ,args ,@body))
      #'self))
@@ -332,7 +332,7 @@ The variable `it' is available within all expressions of BODY
 except the initial one.
 
 NAME and BODY are otherwise as documented for `block'."
-  (declare (debug (sexp &rest form))
+  (declare (debug block)
            (indent 1))
   `(block ,name
      ,(funcall (anaphoric-lambda (body)
@@ -350,7 +350,7 @@ NAME and BODY are otherwise as documented for `block'."
 The variable `it' is available within CLAUSES.
 
 EXPR and CLAUSES are otherwise as documented for `case'."
-  (declare (debug (sexp &rest form))
+  (declare (debug case)
            (indent 1))
   `(let ((it ,expr))
      (case it ,@clauses)))
@@ -362,7 +362,8 @@ EXPR and CLAUSES are otherwise as documented for `case'."
 The variable `it' is available within CLAUSES.
 
 EXPR and CLAUSES are otherwise as documented for `ecase'."
-  (declare (indent 1))
+  (declare (debug ecase)
+           (indent 1))
   `(let ((it ,expr))
      (ecase it ,@clauses)))
 
@@ -373,7 +374,8 @@ EXPR and CLAUSES are otherwise as documented for `ecase'."
 The variable `it' is available within CLAUSES.
 
 EXPR and CLAUSES are otherwise as documented for `typecase'."
-  (declare (indent 1))
+  (declare (debug typecase)
+           (indent 1))
   `(let ((it ,expr))
      (typecase it ,@clauses)))
 
@@ -384,7 +386,8 @@ EXPR and CLAUSES are otherwise as documented for `typecase'."
 The variable `it' is available within CLAUSES.
 
 EXPR and CLAUSES are otherwise as documented for `etypecase'."
-  (declare (indent 1))
+  (declare (debug etypecase)
+           (indent 1))
   `(let ((it ,expr))
      (etypecase it ,@clauses)))
 
@@ -396,7 +399,7 @@ VARLIST as it appears in `it' is not evaluated.  The variable `it'
 is available within BODY.
 
 VARLIST and BODY are otherwise as documented for `let'."
-  (declare (debug (sexp &rest form))
+  (declare (debug let)
            (indent 1))
   `(let ((it ',varlist)
          ,@varlist)
