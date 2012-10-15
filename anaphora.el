@@ -81,7 +81,8 @@
 ;;     GNU Emacs version 24.3-devel     : yes, except macros marked experimental
 ;;     GNU Emacs version 24.1 & 24.2    : yes
 ;;     GNU Emacs version 23.3           : yes
-;;     GNU Emacs version 22.3 and lower : yes
+;;     GNU Emacs version 22.3           : yes
+;;     GNU Emacs version 21.x and lower : unknown
 ;;
 ;; Bugs
 ;;
