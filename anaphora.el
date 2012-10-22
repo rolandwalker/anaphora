@@ -212,7 +212,10 @@ With negative numeric ARG, remove traditional aliases."
       ((and (numberp arg)
             (< arg 0))
        (dolist (cell syms)
-         (fmakunbound (intern (format "a%s" (car cell))))))
+           (when (ignore-errors
+                   (eq (symbol-function (intern-soft (format "a%s" (car cell))))
+                                        (intern-soft (format "anaphoric-%s" (car cell)))))
+             (fmakunbound (intern (format "a%s" (car cell)))))))
       (t
        (dolist (cell syms)
          (let* ((builtin (car cell))
