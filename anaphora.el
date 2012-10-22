@@ -186,45 +186,45 @@
 
 ;;;###autoload
 (progn
-(defun anaphora--install-traditional-aliases (&optional arg)
-  "Install traditional short aliases for anaphoric macros.
+  (defun anaphora--install-traditional-aliases (&optional arg)
+    "Install traditional short aliases for anaphoric macros.
 
 With negative numeric ARG, remove traditional aliases."
-  (let ((syms '(
-                (if         .  t)
-                (prog1      .  t)
-                (when       .  when)
-                (while      .  t)
-                (and        .  t)
-                (cond       .  cond)
-                (lambda     .  lambda)
-                (block      .  block)
-                (case       .  case)
-                (ecase      .  ecase)
-                (typecase   .  typecase)
-                (etypecase  .  etypecase)
-                (let        .  let)
-                (+          .  t)
-                (-          .  t)
-                (*          .  t)
-                (/          .  t)
-                )))
-    (cond
-      ((and (numberp arg)
-            (< arg 0))
-       (dolist (cell syms)
+    (let ((syms '(
+                  (if         .  t)
+                  (prog1      .  t)
+                  (when       .  when)
+                  (while      .  t)
+                  (and        .  t)
+                  (cond       .  cond)
+                  (lambda     .  lambda)
+                  (block      .  block)
+                  (case       .  case)
+                  (ecase      .  ecase)
+                  (typecase   .  typecase)
+                  (etypecase  .  etypecase)
+                  (let        .  let)
+                  (+          .  t)
+                  (-          .  t)
+                  (*          .  t)
+                  (/          .  t)
+                  )))
+      (cond
+        ((and (numberp arg)
+              (< arg 0))
+         (dolist (cell syms)
            (when (ignore-errors
                    (eq (symbol-function (intern-soft (format "a%s" (car cell))))
                                         (intern-soft (format "anaphoric-%s" (car cell)))))
              (fmakunbound (intern (format "a%s" (car cell)))))))
-      (t
-       (dolist (cell syms)
-         (let* ((builtin (car cell))
-                (traditional (intern (format "a%s" builtin)))
-                (long (intern (format "anaphoric-%s" builtin))))
-           (defalias traditional long)
-           (put traditional 'lisp-indent-function
-                (get builtin 'lisp-indent-function))
+        (t
+         (dolist (cell syms)
+           (let* ((builtin (car cell))
+                  (traditional (intern (format "a%s" builtin)))
+                  (long (intern (format "anaphoric-%s" builtin))))
+             (defalias traditional long)
+             (put traditional 'lisp-indent-function
+                  (get builtin 'lisp-indent-function))
              (put traditional 'edebug-form-spec (cdr cell)))))))))
 
 ;;;###autoload
