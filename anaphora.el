@@ -185,6 +185,7 @@
 ;;; aliases
 
 ;;;###autoload
+(progn
 (defun anaphora--install-traditional-aliases (&optional arg)
   "Install traditional short aliases for anaphoric macros.
 
@@ -224,7 +225,7 @@ With negative numeric ARG, remove traditional aliases."
            (defalias traditional long)
            (put traditional 'lisp-indent-function
                 (get builtin 'lisp-indent-function))
-           (put traditional 'edebug-form-spec (cdr cell))))))))
+             (put traditional 'edebug-form-spec (cdr cell)))))))))
 
 ;;;###autoload
 (unless anaphora-use-long-names-only
