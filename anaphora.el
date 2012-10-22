@@ -108,7 +108,7 @@
 ;;; Code:
 ;;
 
-;;; requires
+;;; requirements
 
 ;; for declare, labels, do, block, case, ecase, typecase, etypecase
 (require 'cl)
