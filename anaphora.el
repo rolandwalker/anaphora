@@ -47,6 +47,7 @@
 ;;     `alambda'
 ;;     `alet'
 ;;     `aprog1'
+;;     `aprog2'
 ;;     `atypecase'
 ;;     `awhen'
 ;;     `awhile'
@@ -142,6 +143,7 @@
        (let ((new-keywords '(
                              "anaphoric-if"
                              "anaphoric-prog1"
+                             "anaphoric-prog2"
                              "anaphoric-when"
                              "anaphoric-while"
                              "anaphoric-and"
@@ -155,6 +157,7 @@
                              "anaphoric-let"
                              "aif"
                              "aprog1"
+                             "aprog2"
                              "awhen"
                              "awhile"
                              "aand"
@@ -193,6 +196,7 @@ With negative numeric ARG, remove traditional aliases."
     (let ((syms '(
                   (if         .  t)
                   (prog1      .  t)
+                  (prog2      .  t)
                   (when       .  when)
                   (while      .  t)
                   (and        .  t)
@@ -257,6 +261,21 @@ FIRST and BODY are otherwise as documented for `prog1'."
   `(let ((it ,first))
      (progn ,@body)
      it))
+
+;;;###autoload
+(defmacro anaphoric-prog2 (form1 form2 &rest body)
+  "Like `prog2', but the result of evaluating FORM2 is bound to `it'.
+
+The variable `it' is available within BODY.
+
+FORM1, FORM2, and BODY are otherwise as documented for `prog2'."
+  (declare (debug t)
+           (indent 2))
+  `(progn
+     ,form1
+     (let ((it ,form2))
+       (progn ,@body)
+       it)))
 
 ;;;###autoload
 (defmacro anaphoric-when (cond &rest body)

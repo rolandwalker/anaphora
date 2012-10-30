@@ -59,6 +59,29 @@
      (1+ it))))
 
 
+;;; anaphoric-prog2
+
+(ert-deftest anaphoric-prog2-01 nil
+  (should (= 5
+             (aprog2 1 5
+               (assert (eq it 5))
+               10))))
+
+(ert-deftest anaphoric-prog2-02 nil
+  (should (= 6
+             (aprog2 1 5
+               (incf it)
+               10))))
+
+(ert-deftest anaphoric-prog2-03 nil
+  (should-error
+   (aprog2 (1+ it) 1
+     1))
+  (should-error
+   (aprog2 1 (1+ it)
+     1)))
+
+
 ;;; anaphoric-when
 
 (ert-deftest anaphoric-when-01 nil

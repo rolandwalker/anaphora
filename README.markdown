@@ -46,6 +46,7 @@ The following macros are made available
 	alambda
 	alet
 	aprog1
+	aprog2
 	atypecase
 	awhen
 	awhile
