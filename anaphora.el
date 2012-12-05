@@ -120,7 +120,9 @@
 (defgroup anaphora nil
   "Anaphoric macros providing implicit temp variables"
   :version "0.1.0"
-  :link '(emacs-commentary-link "anaphora")
+  :link '(emacs-commentary-link :tag "Commentary" "anaphora")
+  :link '(url-link :tag "Github" "http://github.com/rolandwalker/anaphora")
+  :link '(url-link :tag "EmacsWiki" "http://emacswiki.org/emacs/Anaphora")
   :prefix "anaphora-"
   :group 'extensions)
 
