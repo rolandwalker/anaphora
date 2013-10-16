@@ -79,7 +79,7 @@ customize.
 Compatibility and Requirements
 ------------------------------
 
-	GNU Emacs version 24.3-devel     : yes, except macros marked experimental
+	GNU Emacs version 24.4-devel     : yes, except macros marked experimental
 	GNU Emacs version 24.3           : yes, except macros marked experimental
 	GNU Emacs version 23.3           : yes, except macros marked experimental
 	GNU Emacs version 22.3           : yes, except macros marked experimental
