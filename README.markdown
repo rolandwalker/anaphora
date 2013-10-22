@@ -55,11 +55,10 @@ The following macros are made available
 	a*
 	a/
 
-The following macros are experimental, especially the last one
+The following macros are experimental
 
 	anaphoric-set
 	anaphoric-setq
-	anaphoric-setf-experimental
 
 See Also
 --------
