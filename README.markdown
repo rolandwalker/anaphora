@@ -63,8 +63,8 @@ The following macros are experimental
 See Also
 --------
 
-* [http://en.wikipedia.org/wiki/On_Lisp](http://en.wikipedia.org/wiki/On_Lisp)
-* [http://en.wikipedia.org/wiki/Anaphoric_macro](http://en.wikipedia.org/wiki/Anaphoric_macro)
+* <http://en.wikipedia.org/wiki/On_Lisp>
+* <http://en.wikipedia.org/wiki/Anaphoric_macro>
 
 Notes
 -----
