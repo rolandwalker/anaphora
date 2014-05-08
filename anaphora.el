@@ -4,7 +4,7 @@
 ;;
 ;; Author: Roland Walker <walker@pobox.com>
 ;; Homepage: http://github.com/rolandwalker/anaphora
-;; URL: http://raw.github.com/rolandwalker/anaphora/master/anaphora.el
+;; URL: http://raw.githubusercontent.com/rolandwalker/anaphora/master/anaphora.el
 ;; Version: 1.0.0
 ;; Last-Updated: 22 Oct 2013
 ;; EmacsWiki: Anaphora
