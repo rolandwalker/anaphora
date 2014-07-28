@@ -8,7 +8,7 @@ Anaphoric expressions for Emacs Lisp, providing implicit temporary variables.
 Quickstart
 ----------
 
-```lisp
+```elisp
 (require 'anaphora)
  
 (awhen (big-long-calculation)
@@ -30,7 +30,7 @@ recursion for anonymous functions.
 To use anaphora, place the anaphora.el library somewhere
 Emacs can find it, and add the following to your ~/.emacs file:
 
-```lisp
+```elisp
 (require 'anaphora)
 ```
 
