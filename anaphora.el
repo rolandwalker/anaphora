@@ -513,7 +513,7 @@ The variable `it' is available within each VAL.
 
 ARGS in the form [SYM VAL] ... are otherwise as documented for `setq'.
 
-No alias `asetq' is provided, because it would easily mistaken
+No alias `asetq' is provided, because it would be easily mistaken
 for the pre-existing `aset', and because `anaphoric-setq' is not
 likely to find frequent use."
   (cond
