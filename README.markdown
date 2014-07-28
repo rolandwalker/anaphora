@@ -1,12 +1,10 @@
 [![Build Status](https://secure.travis-ci.org/rolandwalker/anaphora.png?branch=master)](http://travis-ci.org/rolandwalker/anaphora)
 
-Overview
-========
+# Overview
 
 Anaphoric expressions for Emacs Lisp, providing implicit temporary variables.
 
-Quickstart
-----------
+## Quickstart
 
 ```elisp
 (require 'anaphora)
@@ -19,8 +17,7 @@ Quickstart
 (alambda (x) (if (= x 0) 1 (* x (self (1- x)))))
 ```
 
-anaphora
---------
+## anaphora
 
 Anaphoric expressions implicitly create one or more temporary
 variables which can be referred to during the expression.  This
@@ -60,14 +57,11 @@ The following macros are experimental
 	anaphoric-set
 	anaphoric-setq
 
-See Also
---------
+## See Also
 
-* <http://en.wikipedia.org/wiki/On_Lisp>
 * <http://en.wikipedia.org/wiki/Anaphoric_macro>
 
-Notes
------
+## Notes
 
 Partially based on examples from the book "On Lisp", by Paul Graham.
 
@@ -75,8 +69,7 @@ When this library is loaded, the provided anaphoric forms are
 registered as keywords in font-lock. This may be disabled via
 customize.
 
-Compatibility and Requirements
-------------------------------
+## Compatibility and Requirements
 
 	GNU Emacs version 24.4-devel     : yes, except macros marked experimental
 	GNU Emacs version 24.3           : yes, except macros marked experimental
