@@ -24,8 +24,8 @@ variables which can be referred to during the expression.  This
 technique can improve clarity in certain cases.  It also enables
 recursion for anonymous functions.
 
-To use anaphora, place the anaphora.el library somewhere
-Emacs can find it, and add the following to your ~/.emacs file:
+To use anaphora, place the `anaphora.el` library somewhere
+Emacs can find it, and add the following to your `~/.emacs` file:
 
 ```elisp
 (require 'anaphora)
