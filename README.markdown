@@ -4,6 +4,12 @@
 
 Anaphoric expressions for Emacs Lisp, providing implicit temporary variables.
 
+ * [Quickstart](#quickstart)
+ * [anaphora](#anaphora)
+ * [See Also](#see-also)
+ * [Notes](#notes)
+ * [Compatibility and Requirements](#compatibility-and-requirements)
+
 ## Quickstart
 
 ```elisp
@@ -59,7 +65,7 @@ The following macros are experimental
 
 ## See Also
 
-* <http://en.wikipedia.org/wiki/Anaphoric_macro>
+ * <http://en.wikipedia.org/wiki/Anaphoric_macro>
 
 ## Notes
 
