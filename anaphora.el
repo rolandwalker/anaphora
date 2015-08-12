@@ -78,7 +78,9 @@
 ;;
 ;; Compatibility and Requirements
 ;;
-;;     GNU Emacs version 24.4-devel     : yes, except macros marked experimental
+;;     GNU Emacs version 25.1-devel     : not tested
+;;     GNU Emacs version 24.5           : not tested
+;;     GNU Emacs version 24.4           : yes, except macros marked experimental
 ;;     GNU Emacs version 24.3           : yes, except macros marked experimental
 ;;     GNU Emacs version 23.3           : yes, except macros marked experimental
 ;;     GNU Emacs version 22.2           : yes, except macros marked experimental
