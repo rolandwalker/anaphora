@@ -413,17 +413,13 @@ EXPR and CLAUSES are otherwise as documented for `etypecase'."
      (etypecase it ,@clauses)))
 
 ;;;###autoload
-(defmacro anaphoric-let (varlist &rest body)
-  "Like `let', but the content of VARLIST is bound to `it'.
-
-VARLIST as it appears in `it' is not evaluated.  The variable `it'
-is available within BODY.
+(defmacro anaphoric-let (form &rest body)
+  "Like `let', but the result of evaluating VARLIST is bound to `it'.
 
 VARLIST and BODY are otherwise as documented for `let'."
   (declare (debug let)
            (indent 1))
-  `(let ((it ',varlist)
-         ,@varlist)
+  `(let ((it (,@form)))
      (progn ,@body)))
 
 ;;;###autoload

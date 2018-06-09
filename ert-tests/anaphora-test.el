@@ -371,31 +371,13 @@
 
 (ert-deftest anaphoric-let-01 nil
   (should (= 1
-             (alet ((x 1)
-                    (y 2)
-                    (z 3))
-               x))))
+             (alet 1
+               it))))
 
 (ert-deftest anaphoric-let-02 nil
-  (should (equal '(y 2)
-                 (alet ((x 1)
-                        (y 2)
-                        (z 3))
-                   (nth 1 it)))))
-
-(ert-deftest anaphoric-let-03 nil
-  (should (eq 'y
-              (alet (x y z)
-                (car (memq 'y it))))))
-
-(ert-deftest anaphoric-let-04 nil
-  (should (equal '(x y z)
-                 (let ((vars '((x 1)
-                               (y 2)
-                               (z 3))))
-                   (eval `(alet ,vars
-                            (mapcar 'car it)))))))
-
+  (should (= 2
+             (alet (+ 1 1)
+               it))))
 
 ;;; anaphoric-+
 
