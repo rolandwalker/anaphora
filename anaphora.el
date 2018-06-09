@@ -5,8 +5,8 @@
 ;; Author: Roland Walker <walker@pobox.com>
 ;; Homepage: http://github.com/rolandwalker/anaphora
 ;; URL: http://raw.githubusercontent.com/rolandwalker/anaphora/master/anaphora.el
-;; Version: 1.0.0
-;; Last-Updated: 22 Oct 2013
+;; Version: 1.0.2
+;; Last-Updated:  9 Jun 2018
 ;; EmacsWiki: Anaphora
 ;; Keywords: extensions
 ;;
@@ -110,7 +110,7 @@
 ;;;###autoload
 (defgroup anaphora nil
   "Anaphoric macros providing implicit temp variables"
-  :version "1.0.0"
+  :version "1.0.2"
   :link '(emacs-commentary-link :tag "Commentary" "anaphora")
   :link '(url-link :tag "GitHub" "http://github.com/rolandwalker/anaphora")
   :link '(url-link :tag "EmacsWiki" "http://emacswiki.org/emacs/Anaphora")
