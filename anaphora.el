@@ -103,7 +103,7 @@
 ;;; requirements
 
 ;; for declare, labels, do, block, case, ecase, typecase, etypecase
-(require 'cl)
+(require 'cl-lib)
 
 ;;; customizable variables
 
@@ -335,7 +335,7 @@ CLAUSES are otherwise as documented for `cond'."
 ARGS and BODY are otherwise as documented for `lambda'."
   (declare (debug lambda)
            (indent defun))
-  `(labels ((self ,args ,@body))
+  `(cl-labels ((self ,args ,@body))
      #'self))
 
 ;;;###autoload
@@ -348,9 +348,9 @@ except the initial one.
 NAME and BODY are otherwise as documented for `block'."
   (declare (debug block)
            (indent 1))
-  `(block ,name
+  `(cl-block ,name
      ,(funcall (anaphoric-lambda (body)
-                 (case (length body)
+                 (cl-case (length body)
                    (0 nil)
                    (1 (car body))
                    (t `(let ((it ,(car body)))
@@ -367,7 +367,7 @@ EXPR and CLAUSES are otherwise as documented for `case'."
   (declare (debug case)
            (indent 1))
   `(let ((it ,expr))
-     (case it ,@clauses)))
+     (cl-case it ,@clauses)))
 
 ;;;###autoload
 (defmacro anaphoric-ecase (expr &rest clauses)
@@ -379,7 +379,7 @@ EXPR and CLAUSES are otherwise as documented for `ecase'."
   (declare (debug ecase)
            (indent 1))
   `(let ((it ,expr))
-     (ecase it ,@clauses)))
+     (cl-ecase it ,@clauses)))
 
 ;;;###autoload
 (defmacro anaphoric-typecase (expr &rest clauses)
@@ -391,7 +391,7 @@ EXPR and CLAUSES are otherwise as documented for `typecase'."
   (declare (debug typecase)
            (indent 1))
   `(let ((it ,expr))
-     (typecase it ,@clauses)))
+     (cl-typecase it ,@clauses)))
 
 ;;;###autoload
 (defmacro anaphoric-etypecase (expr &rest clauses)
@@ -403,7 +403,7 @@ EXPR and CLAUSES are otherwise as documented for `etypecase'."
   (declare (debug etypecase)
            (indent 1))
   `(let ((it ,expr))
-     (etypecase it ,@clauses)))
+     (cl-etypecase it ,@clauses)))
 
 ;;;###autoload
 (defmacro anaphoric-let (form &rest body)
