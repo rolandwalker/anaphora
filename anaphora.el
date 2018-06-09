@@ -56,11 +56,6 @@
 ;;     `a*'
 ;;     `a/'
 ;;
-;; The following macros are experimental
-;;
-;;     `anaphoric-set'
-;;     `anaphoric-setq'
-;;
 ;; See Also
 ;;
 ;;     M-x customize-group RET anaphora RET
@@ -96,9 +91,7 @@
 ;;
 ;; All code contributed by the author to this library is placed in the
 ;; public domain.  It is the author's belief that the portions adapted
-;; from examples in "On Lisp" are in the public domain.  At least 10
-;; lines of code have been adapted from the Emacs 'cl package (in the
-;; function `anaphoric-setq').
+;; from examples in "On Lisp" are in the public domain.
 ;;
 ;; Regardless of the copyright status of individual functions, all
 ;; code herein is free software, and is provided without any express
@@ -488,43 +481,6 @@ DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
     (t
      `(let ((it ,divisor))
         (/ ,dividend (* it (anaphoric-* ,@divisors)))))))
-
-;;;###autoload
-(defmacro anaphoric-set (symbol value)
-  "Like `set', except that the value of SYMBOL is bound to `it'.
-
-The variable `it' is available within VALUE.
-
-SYMBOL and VALUE are otherwise as documented for `set'.
-
-Note that if this macro followed traditional naming for
-anaphoric expressions, it would conflict with the existing
-\(quite different\) function `aset'."
-  `(let ((it ,symbol))
-     (set it ,value)))
-
-;;;###autoload
-(defmacro anaphoric-setq (&rest args)
-  "Like `setq', except that the value of SYM is bound to `it'.
-
-The variable `it' is available within each VAL.
-
-ARGS in the form [SYM VAL] ... are otherwise as documented for `setq'.
-
-No alias `asetq' is provided, because it would be easily mistaken
-for the pre-existing `aset', and because `anaphoric-setq' is not
-likely to find frequent use."
-  (cond
-    ((null args)
-     nil)
-    ((> (length args) 2)
-     (let ((pairs nil))
-       (while args
-         (push (list 'anaphoric-setq (pop args) (pop args)) pairs))
-       (cons 'progn (nreverse pairs))))
-    (t
-     `(let ((it (quote ,(car args))))
-        (set it ,(cadr args))))))
 
 (provide 'anaphora)
 

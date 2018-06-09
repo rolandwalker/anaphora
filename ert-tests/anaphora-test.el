@@ -497,58 +497,6 @@
              (a/ 200 5 2 it 5))))
 
 
-;;; anaphoric-set
-
-(ert-deftest anaphoric-set-01 nil
-  (should-error
-   (progn
-     (anaphoric-set))))
-
-(ert-deftest anaphoric-set-02 nil
-  (should (= 2
-             (let ((variable 0))
-               (anaphoric-set 'variable 2)))))
-
-(ert-deftest anaphoric-set-03 nil
-  (should (eq 'variable
-             (let ((variable 0))
-               (anaphoric-set 'variable it)))))
-
-(ert-deftest anaphoric-set-04 nil
-  (should (equal "name-variable"
-                 (let ((variable 0))
-                   (anaphoric-set 'variable (format "name-%s" it))))))
-
-
-;;; anaphoric-setq
-
-(ert-deftest anaphoric-setq-01 nil
-  (should-not
-   (anaphoric-setq)))
-
-(ert-deftest anaphoric-setq-02 nil
-  (should (= 2
-             (let ((variable 0))
-               (anaphoric-setq variable 2)))))
-
-(ert-deftest anaphoric-setq-03 nil
-  (should (eq 'variable
-             (let ((variable 0))
-               (anaphoric-setq variable it)))))
-
-(ert-deftest anaphoric-setq-04 nil
-  (should (equal "name-variable"
-             (let ((variable 0))
-               (anaphoric-setq variable (format "name-%s" it))))))
-
-(ert-deftest anaphoric-setq-05 nil
-  (should (equal '("name-variable-1" "name-variable-2")
-                 (let ((variable-1 0)
-                       (variable-2 0))
-                   (anaphoric-setq variable-1 (format "name-%s" it)
-                                   variable-2 (format "name-%s" it))
-                   (list variable-1 variable-2)))))
-
 ;;
 ;; Emacs
 ;;
