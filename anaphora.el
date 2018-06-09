@@ -1,4 +1,4 @@
-;;; anaphora.el --- anaphoric macros providing implicit temp variables
+;;; anaphora.el --- anaphoric macros providing implicit temp variables  -*- lexical-binding: t -*-
 ;;
 ;; This code is in the public domain.
 ;;

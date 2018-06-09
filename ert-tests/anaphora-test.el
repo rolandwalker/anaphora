@@ -1,3 +1,4 @@
+;;  -*- lexical-binding: t -*-
 
 (require 'anaphora)
 (anaphora--install-traditional-aliases)
