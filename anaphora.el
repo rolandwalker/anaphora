@@ -364,9 +364,9 @@ EXPR and CLAUSES are otherwise as documented for `etypecase'."
 
 ;;;###autoload
 (defmacro anaphoric-let (form &rest body)
-  "Like `let', but the result of evaluating VARLIST is bound to `it'.
+  "Like `let', but the result of evaluating FORM is bound to `it'.
 
-VARLIST and BODY are otherwise as documented for `let'."
+FORM and BODY are otherwise as documented for `let'."
   (declare (debug let)
            (indent 1))
   `(let ((it (,@form)))
@@ -454,7 +454,7 @@ DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
 ;;
 ;; LocalWords: Anaphora EXPR awhen COND ARGS alambda ecase typecase
 ;; LocalWords: etypecase aprog aand acond ablock acase aecase alet
-;; LocalWords: atypecase aetypecase VARLIST
+;; LocalWords: atypecase aetypecase
 ;;
 
 ;;; anaphora.el ends here
