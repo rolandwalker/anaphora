@@ -77,12 +77,11 @@ registered as keywords in font-lock. This may be disabled via
 
 ## Compatibility and Requirements
 
-	GNU Emacs version 25.1-devel     : not tested
-	GNU Emacs version 24.5           : not tested
-	GNU Emacs version 24.4           : yes, except macros marked experimental
-	GNU Emacs version 24.3           : yes, except macros marked experimental
-	GNU Emacs version 23.3           : yes, except macros marked experimental
-	GNU Emacs version 22.2           : yes, except macros marked experimental
+	GNU Emacs version 26.1           : yes
+	GNU Emacs version 25.x           : yes
+	GNU Emacs version 24.x           : yes
+	GNU Emacs version 23.x           : yes
+	GNU Emacs version 22.x           : yes
 	GNU Emacs version 21.x and lower : unknown
 
 No external dependencies
