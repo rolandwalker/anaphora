@@ -369,7 +369,7 @@ EXPR and CLAUSES are otherwise as documented for `etypecase'."
 FORM and BODY are otherwise as documented for `let'."
   (declare (debug let)
            (indent 1))
-  `(let ((it (,@form)))
+  `(let ((it ,form))
      (progn ,@body)))
 
 ;;;###autoload
