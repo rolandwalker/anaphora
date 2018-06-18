@@ -21,6 +21,10 @@ Anaphoric expressions for Emacs Lisp, providing implicit temporary variables.
  
 ;; anonymous function to compute factorial using `self`
 (alambda (x) (if (= x 0) 1 (* x (self (1- x)))))
+ 
+;; to fontify `it' and `self'
+(with-eval-after-load "lisp-mode"
+  (anaphora-install-font-lock-keywords))
 ```
 
 ## anaphora

@@ -23,6 +23,10 @@
 ;;     ;; anonymous function to compute factorial using `self'
 ;;     (alambda (x) (if (= x 0) 1 (* x (self (1- x)))))
 ;;
+;;     ;; to fontify `it' and `self'
+;;     (with-eval-after-load "lisp-mode"
+;;       (anaphora-install-font-lock-keywords))
+;;
 ;; Explanation
 ;;
 ;; Anaphoric expressions implicitly create one or more temporary
@@ -66,10 +70,6 @@
 ;;
 ;; Partially based on examples from the book "On Lisp", by Paul
 ;; Graham.
-;;
-;; When this library is loaded, the provided anaphoric forms are
-;; registered as keywords in font-lock.  This may be disabled via
-;; customize.
 ;;
 ;; Compatibility and Requirements
 ;;
@@ -116,11 +116,6 @@
   :prefix "anaphora-"
   :group 'extensions)
 
-(defcustom anaphora-add-font-lock-keywords t
-  "Add anaphora macros to font-lock keywords when editing Emacs Lisp."
-  :type 'boolean
-  :group 'anaphora)
-
 ;;;###autoload
 (defcustom anaphora-use-long-names-only nil
   "Use only long names such as `anaphoric-if' instead of traditional `aif'."
@@ -129,47 +124,10 @@
 
 ;;; font-lock
 
-(when anaphora-add-font-lock-keywords
-  (eval-after-load "lisp-mode"
-    '(progn
-       (let ((new-keywords '(
-                             "anaphoric-if"
-                             "anaphoric-prog1"
-                             "anaphoric-prog2"
-                             "anaphoric-when"
-                             "anaphoric-while"
-                             "anaphoric-and"
-                             "anaphoric-cond"
-                             "anaphoric-lambda"
-                             "anaphoric-block"
-                             "anaphoric-case"
-                             "anaphoric-ecase"
-                             "anaphoric-typecase"
-                             "anaphoric-etypecase"
-                             "anaphoric-let"
-                             "aif"
-                             "aprog1"
-                             "aprog2"
-                             "awhen"
-                             "awhile"
-                             "aand"
-                             "acond"
-                             "alambda"
-                             "ablock"
-                             "acase"
-                             "aecase"
-                             "atypecase"
-                             "aetypecase"
-                             "alet"
-                             ))
-             (special-variables '(
-                                  "it"
-                                  "self"
-                                  )))
-         (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "\\<" (regexp-opt special-variables 'paren) "\\>")
-                                                     1 font-lock-variable-name-face)) 'append)
-         (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "(\\s-*" (regexp-opt new-keywords 'paren) "\\>")
-                                                     1 font-lock-keyword-face)) 'append)))))
+(defun anaphora-install-font-lock-keywords nil
+  "Fontify keywords `it' and `self'."
+  (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "\\<" (regexp-opt '("it" "self") 'paren) "\\>")
+                                              1 font-lock-variable-name-face)) 'append))
 
 ;;; aliases
 
