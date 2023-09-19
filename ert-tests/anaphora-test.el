@@ -367,6 +367,15 @@
      (hash-table
       :nono))))
 
+;;; anaphoric-pcase
+
+(ert-deftest anaphoric-pcase-01 nil
+  (should (equal '(:yes 1)
+                 (let ((x 0))
+                   (apcase (incf x)
+                     (0 :no)
+                     (1 (list :yes it))
+                     (2 :nono))))))
 
 ;;; anaphoric-let
 
