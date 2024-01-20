@@ -49,6 +49,7 @@ The following macros are made available
 	acond
 	aecase
 	aetypecase
+	apcase
 	aif
 	alambda
 	alet

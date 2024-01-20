@@ -47,6 +47,7 @@
 ;;     `acond'
 ;;     `aecase'
 ;;     `aetypecase'
+;;     `apcase'
 ;;     `aif'
 ;;     `alambda'
 ;;     `alet'
@@ -151,6 +152,7 @@ With negative numeric ARG, remove traditional aliases."
                   (ecase      .  ecase)
                   (typecase   .  typecase)
                   (etypecase  .  etypecase)
+                  (pcase      .  pcase)
                   (let        .  let)
                   (+          .  t)
                   (-          .  t)
@@ -363,6 +365,18 @@ EXPR and CLAUSES are otherwise as documented for `etypecase'."
      (cl-etypecase it ,@clauses)))
 
 ;;;###autoload
+(defmacro anaphoric-pcase (expr &rest clauses)
+  "Like `pcase', but the result of evaluating EXPR is bound to `it'.
+
+The variable `it' is available within CLAUSES.
+
+EXPR and CLAUSES are otherwise as documented for `pcase'."
+  (declare (debug pcase)
+           (indent 1))
+  `(let ((it ,expr))
+     (pcase it ,@clauses)))
+
+;;;###autoload
 (defmacro anaphoric-let (form &rest body)
   "Like `let', but the result of evaluating FORM is bound to `it'.
 
@@ -454,7 +468,7 @@ DIVIDEND, DIVISOR, and DIVISORS are otherwise as documented for `/'."
 ;;
 ;; LocalWords: Anaphora EXPR awhen COND ARGS alambda ecase typecase
 ;; LocalWords: etypecase aprog aand acond ablock acase aecase alet
-;; LocalWords: atypecase aetypecase
+;; LocalWords: atypecase aetypecase apcase
 ;;
 
 ;;; anaphora.el ends here
