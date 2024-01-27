@@ -201,7 +201,9 @@ COND, THEN, and ELSE are otherwise as documented for `if'."
 
 The variable `it' is available within BODY.
 
-FIRST and BODY are otherwise as documented for `prog1'."
+FIRST and BODY are otherwise as documented for `prog1'.
+  
+The final return value of the form is `it'."
   (declare (debug t)
            (indent 1))
   `(let ((it ,first))
@@ -214,7 +216,9 @@ FIRST and BODY are otherwise as documented for `prog1'."
 
 The variable `it' is available within BODY.
 
-FORM1, FORM2, and BODY are otherwise as documented for `prog2'."
+FORM1, FORM2, and BODY are otherwise as documented for `prog2'.
+  
+The final return value of the form is `it'."
   (declare (debug t)
            (indent 2))
   `(progn
