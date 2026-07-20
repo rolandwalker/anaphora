@@ -244,7 +244,7 @@ The variable `it' is available within BODY.
 TEST and BODY are otherwise as documented for `while'."
   (declare (debug t)
            (indent 1))
-  `(do ((it ,test ,test))
+  `(cl-do ((it ,test ,test))
        ((not it))
      ,@body))
 
